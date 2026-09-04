@@ -11,17 +11,19 @@ form.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch("https://task-manager-basic-crud-production.up.railway.app/appointments/appointments/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://task-manager-basic-crud-production.up.railway.app/appointments/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointment),
       },
-      body: JSON.stringify(appointment),
-    });
+    );
 
     const data = await response.json();
     alert(data.message);
-
   } catch (error) {
     console.error("Erro:", error);
   }
