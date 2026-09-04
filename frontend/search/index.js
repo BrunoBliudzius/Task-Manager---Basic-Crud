@@ -1,0 +1,30 @@
+document.addEventListener("DOMContentLoaded", () => {
+  loadAppointments();
+});
+
+async function loadAppointments() {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/appointments/");
+
+    const data = await response.json();
+
+    const tbody = document.getElementById("appointments-table");
+
+    data.forEach((appointment) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${appointment.id}</td>
+                    <td>${appointment.title}</td>
+                    <td>${appointment.description}</td>
+                    <td>${appointment.date}</td>
+                    <td>${appointment.end_time}</td>
+                    <td>
+                    <a class="btn btn-sm btn-primary" href="#"> Update </a>
+                    <a class="btn btn-sm btn-danger" href="#"> Delete </a>
+                    </td> `;
+
+      tbody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Erro:", error);
+  }
+}
