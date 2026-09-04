@@ -11,7 +11,7 @@ form.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch("http://127.0.0.1:https://task-manager-basic-crud-production.up.railway.app/appointments//appointments/", {
+    const response = await fetch("https://task-manager-basic-crud-production.up.railway.app/appointments/appointments/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
