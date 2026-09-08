@@ -3,7 +3,7 @@ from fastapi import APIRouter, Body
 from typing import Annotated
 from datetime import date
 
-router = APIRouter(prefix="/appointments", tags=["appointments"])
+router = APIRouter()
 
 
 class Appointment(BaseModel):
@@ -13,15 +13,10 @@ class Appointment(BaseModel):
     end_time: date
 
 
-class OutputAppointment(Appointment):
-    id: int
-
-
-appointment_list: list[OutputAppointment] = []
+appointment_list: list[Appointment] = []
 
 
 @router.post("/")
 async def create_appointment(appointment: Annotated[Appointment, Body()]):
-    output = OutputAppointment(id=len(appointment_list) + 1, **appointment.model_dump())
-    appointment_list.append(output)
+    appointment_list.append(appointment)
     return {"message": "Appointment created successfully"}
