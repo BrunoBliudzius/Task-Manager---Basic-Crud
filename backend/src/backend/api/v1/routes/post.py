@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Depends
 from typing import Annotated
 from datetime import date
+from src.backend.api.con import get_connection
 
 router = APIRouter()
 
@@ -13,15 +14,23 @@ class Appointment(BaseModel):
     end_time: date
 
 
-class OutputAppointment(Appointment):
-    id: int
-
-
-appointment_list: list[OutputAppointment] = []
-
-
 @router.post("/")
-async def create_appointment(appointment: Annotated[Appointment, Body()]):
-    output = OutputAppointment(id=len(appointment_list) + 1, **appointment.model_dump())
-    appointment_list.append(output)
+async def create_appointment(
+    appointment: Annotated[Appointment, Body()],
+    connection=Depends(get_connection),
+):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            INSERT INTO public.appointments (title, description, date, end_time)
+            VALUES (%s, %s, %s, %s);
+            """,
+            (
+                appointment.title,
+                appointment.description,
+                appointment.date,
+                appointment.end_time,
+            ),
+        )
+        connection.commit()
     return {"message": "Appointment created successfully"}
