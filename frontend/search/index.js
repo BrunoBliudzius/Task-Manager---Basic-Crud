@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadAppointments() {
   try {
     const response = await fetch(
-      "https://task-manager-basic-crud-production.up.railway.app/appointments/",
+      "https://task-manager-basic-crud-production.up.railway.app/api/v1/appointments/",
     );
 
     const data = await response.json();

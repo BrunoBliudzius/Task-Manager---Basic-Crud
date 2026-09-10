@@ -12,7 +12,7 @@ form.addEventListener("submit", async (event) => {
 
   try {
     const response = await fetch(
-      "https://task-manager-basic-crud-production.up.railway.app/appointments/",
+      "https://task-manager-basic-crud-production.up.railway.app/api/v1/appointments/",
       {
         method: "POST",
         headers: {
